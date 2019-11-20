@@ -9,7 +9,8 @@ import BookListComponent from './BookListComponent';
 
 class MainComponent extends React.Component {
   state = {
-    searchString: ''
+    searchString: '',
+    view: "cover"
   };
 
   searchBook = ev => {
@@ -25,8 +26,8 @@ class MainComponent extends React.Component {
         <Row>
           <Col md='12'>
             <HeaderComponent />
-            <Button>COVERS</Button>
-            <Button>LIST</Button>
+            <Button onClick={()=> this.setState({view: "cover"})}>COVERS</Button>
+            <Button onClick={()=> this.setState({view: "list"})}>LIST</Button>
           </Col>
 
           <Col md='12'>
@@ -38,7 +39,7 @@ class MainComponent extends React.Component {
               className='mb-5'
             />
           </Col>
-
+          {this.state.view =="cover" &&  <>
           {BooksFantasy.filter(
             books =>
               books.title.toLowerCase().includes(this.state.searchString) || books.category.toLowerCase().includes(this.state.searchString)
@@ -47,8 +48,10 @@ class MainComponent extends React.Component {
               <SingleBook books={bookEntry} key={index} />
             </Col>
           ))}
+           </>}
         </Row>
 
+            {this.state.view =="list" &&
         <Row>
           {BooksFantasy.map((bookEntry, index) => (
             <Col md='3' id='#titles'>
@@ -60,6 +63,7 @@ class MainComponent extends React.Component {
 
           <FooterComponent />
         </Row>
+  }
       </Container>
     );
   }
